@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import SeasonDisplay from "./component/SeasonDisplay";
+import Spinner from "./component/Spinner";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component{
+  state = { lat: null, err: ""};
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => this.setState({lat: position.coords.latitude}),
+      (err) => this.setState({err: err.message}) 
+      );
+  }
+  render(){
+    if(this.state.err && !this.state.lat){
+      return <h1>err:{this.state.err}</h1>
+    }
+    if(!this.state.err && this.state.lat){
+      return <SeasonDisplay lat={this.state.lat} />
+    }
+        return(
+        <div>
+         <Spinner message="Please accept location request" />     
+        </div>
+    );
+  }
+
 }
 
 export default App;
