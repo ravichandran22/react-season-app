@@ -13,7 +13,7 @@ class App extends React.Component{
   }
   render(){
     if(this.state.err && !this.state.lat){
-      return <h1>err:{this.state.err}</h1>
+      return <h1 style={{textAlign: "center", color: "red", marginTop: "20%"}}>err:{this.state.err}</h1>
     }
     if(!this.state.err && this.state.lat){
       return <SeasonDisplay lat={this.state.lat} />
